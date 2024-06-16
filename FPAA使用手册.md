@@ -1,15 +1,3 @@
-<head>
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-            inlineMath: [['$','$']]
-            }
-        });
-    </script>
-</head>
-
 # FPAA使用手册——以实现混沌电路为例
 
 初版编写人：许骥童
@@ -64,6 +52,7 @@
 # 案例一
 
 在FPAA中实现系统（1）：
+
 $$
 \begin{cases}
 \frac{\partial x}{\partial t} = 0.667az\\
@@ -81,7 +70,8 @@ $$
 $$
 \frac{\partial x}{\partial t}=0.667az
 $$
-可以把上式抽象成公式$\frac{\partial x}{\partial t}=kz$，要想实现它，需要用到AD2器件库中的CAM器件GainHalf。
+
+可以把上式抽象成公式$`\frac{\partial x}{\partial t}=kz`$，要想实现它，需要用到AD2器件库中的CAM器件GainHalf。
 
 # GainHalf的使用
 
@@ -124,11 +114,11 @@ $$
 
      1. ####  Polarity（极性）：
      
-          ​	GainHalf可以简单理解为起到了$g(x)=kf(x)$中系数$k$的作用，那么Polarity就可以理解为系数$k$的正负。
+          ​	GainHalf可以简单理解为起到了$`g(x)=kf(x)`$中系数$`k`$的作用，那么Polarity就可以理解为系数$`k`$的正负。
      
-        ​		- Non-inverting : 表示系数$k$为正
+        ​		- Non-inverting : 表示系数$`k`$为正
      
-        ​		- Inverting : 表示系数$k$为负
+        ​		- Inverting : 表示系数$`k`$为负
      
      2. #### Input Sampling Phase(输入采样相位)：
      
@@ -140,7 +130,7 @@ $$
      
   4. ### Parameters（参数）：
   
-     ​	以简单理解为参数$k$的绝对值。
+     ​	以简单理解为参数$`k`$的绝对值。
 
 [^注]: Gain的值收时钟的值的影响
 
@@ -148,7 +138,7 @@ $$
 
 <img src="https://fpaa.oss-cn-shanghai.aliyuncs.com/image-20240106201707386.png" alt="image-20240106201707386"/>
 
-至此，设置好了$\frac{\partial x}{\partial t}=0.667az$中的系数$k$。下一步是实现整个式子的功能，这里需要使用到积分器。
+至此，设置好了$`\frac{\partial x}{\partial t}=0.667az`$中的系数$`k`$。下一步是实现整个式子的功能，这里需要使用到积分器。
 
 # 积分器（Integrator）的使用
 
@@ -232,13 +222,13 @@ $$
   
        ​	积分常数的值取决于时钟频率，一般选取最小的积分常数，表示积分的间隔时间。
   
-  - #### Integrator->$z$的设置如下：
+  - #### Integrator->$`z`$的设置如下：
   
     [^注]: 为了方便确定从Integrator中输出的值对应的变量，规定Integrator->表示输出的变量。
     
     <img src="https://fpaa.oss-cn-shanghai.aliyuncs.com/image-20240107131358178.png" alt="image-20240107131358178"/>
 
-至此，完成了$\frac{\partial x}{\partial t}=0.667az$所需器件的配置，下一步是完成线路的连接。
+至此，完成了$`\frac{\partial x}{\partial t}=0.667az`$所需器件的配置，下一步是完成线路的连接。
 
 # 线路连接
 
@@ -264,7 +254,7 @@ $$
 
 ​	器件之间时钟频率不相同。
 
-​	器件之间连接对应的相位$\Phi$不同。
+​	器件之间连接对应的相位$`\Phi`$不同。
 
 ​	器件之间的传输信号出现周期残缺。
 
@@ -276,15 +266,17 @@ $$
 
 ​	
 
-至此已经实现了$\frac{\partial x}{\partial t}=0.667az$的功能，此时框内情况应该如下图：
+至此已经实现了$`\frac{\partial x}{\partial t}=0.667az`$的功能，此时框内情况应该如下图：
 
 <img src="https://fpaa.oss-cn-shanghai.aliyuncs.com/image-20240107140654757.png" alt="image-20240107140654757"/>
 
 下一步，需要实现的公式是：
+
 $$
 \frac{\partial y}{\partial t} =-by+z
 $$
-可以将上式抽象成为$g(h)=k_1f_1(y)+k_2f_2(z)$的形式，要实现它，需要用到加法器。
+
+可以将上式抽象成为$`g(h)=k_1f_1(y)+k_2f_2(z)`$的形式，要实现它，需要用到加法器。
 
 # 加法器（SumDiff）的使用
 
@@ -316,7 +308,7 @@ $$
   
      #### 	Input 1~4：
   
-     ​	此加法器可实现$G(x)=k_1f_1(x_1)+k_2f_2(x_2)+k_3f_3(x_3)+k_4f_4(x_4)$的功能，所以可以将Input 1~4,看做是系数$k_1、k_2、k_3、k_4$的正负值，Non-Inverting 表示正，Inverting 表示负。
+     ​	此加法器可实现$`G(x)=k_1f_1(x_1)+k_2f_2(x_2)+k_3f_3(x_3)+k_4f_4(x_4)`$的功能，所以可以将Input 1~4,看做是系数$`k_1、k_2、k_3、k_4`$的正负值，Non-Inverting 表示正，Inverting 表示负。
      
      
      ​	需要注意的是：只有在Input 3开启后才能开启Input 4
@@ -330,17 +322,17 @@ $$
   
      ​	Gain 1~4（其中Gain3与Gain 4要在打开对应的Input后才可以使用）
   
-     ​	可以将Gain看做是系数$k_1、k_2、k_3、k_4$的绝对值。同时，Gain值范围受器件时钟的影响。
+     ​	可以将Gain看做是系数$`k_1、k_2、k_3、k_4`$的绝对值。同时，Gain值范围受器件时钟的影响。
   
 
-​	回到$\frac{\partial y}{\partial t} =-by+z$，这里用到了一个两输入的加法器，因此不需要打开加法器的Input 3、Input 4。上述公式第一个输入项为$-by$，其中b=2，而加法器输出的结果是$y$，所以将加法器的输出端接一个积分器（参数配置同上）后连到加法器的Input 1端，并设置Input 1为Inverting，Gain 1设置为2，将 ClockA 设置为250kHz。
+​	回到$`\frac{\partial y}{\partial t} =-by+z`$，这里用到了一个两输入的加法器，因此不需要打开加法器的Input 3、Input 4。上述公式第一个输入项为$`-by`$，其中b=2，而加法器输出的结果是$`y`$，所以将加法器的输出端接一个积分器（参数配置同上）后连到加法器的Input 1端，并设置Input 1为Inverting，Gain 1设置为2，将 ClockA 设置为250kHz。
 ​	至此电路连接应该如下图：
 
 <img src="https://fpaa.oss-cn-shanghai.aliyuncs.com/image-20240107160200985.png" alt="image-20240107160200985"/>
 
-​	而加法器的另一个输入项为$z$，需要通过$\frac{\partial z}{\partial t} =-1.5x+y+8my^2+0.125c$来实现。
+​	而加法器的另一个输入项为$`z`$，需要通过$`\frac{\partial z}{\partial t} =-1.5x+y+8my^2+0.125c`$来实现。
 
-​	观察公式，可以看到公式中有一个$y^2$，实现它需要使用到乘法器。
+​	观察公式，可以看到公式中有一个$`y^2`$，实现它需要使用到乘法器。
 
 # 乘法器（Multiplier）的使用
 
@@ -392,14 +384,14 @@ $$
   
      1. #### Multiplication Factor（乘法系数）：
   
-        乘法器的输出电压 = 输入电压 X $*$ 输入电压 Y $*$ 乘法系数
+        乘法器的输出电压 = 输入电压 X * 输入电压 Y * 乘法系数
   
 ## 相关说明
 
 - 在使用乘法器的时候需要考虑一个问题：即使两个输入电压绝对值均小于3V，但是无法保证他们的乘积落在-3~3V，所以这里我们需要将乘法系数设置为0.333，以保证两者乘积一定落在-3~3V的范围内，当然后面的运算中需要在一个合适的地方乘以3以保证系统的准确性。
 - 通过观察乘法器的图标可知乘法器的输出在相位1无波形损失，在相位2存在波形损失，为保障信号在垮芯片传输或连接到只接受相位2的信号的CAM器件时的稳定性，应将其通过CAM器件Hold后再进行操作。
 
-​	了解了乘法器的使用方法后，可以实现公式中$y^2$的功能，继续观察公式，可以发现公式末尾有一个常数$0.125c$，可以通过CAM器件Voltage（电压）来实现。
+​	了解了乘法器的使用方法后，可以实现公式中$`y^2`$的功能，继续观察公式，可以发现公式末尾有一个常数$`0.125c`$，可以通过CAM器件Voltage（电压）来实现。
 
 # 电压（Voltage）的使用
 
@@ -423,15 +415,15 @@ $$
 
      1. #### Polarity（电压）：
 
-        可以将Voltage看成是一个常数$\plusmn 2$，可以通过加法器等器件来调整其值。	
+        可以将Voltage看成是一个常数$`\plusmn 2`$，可以通过加法器等器件来调整其值。	
 
-至此可以实现公式$\frac{\partial z}{\partial t} =-1.5x+y+8my^2+0.125c$，这里用到了一个四输入的加法器。并按如下要求配置：
+至此可以实现公式$`\frac{\partial z}{\partial t} =-1.5x+y+8my^2+0.125c`$，这里用到了一个四输入的加法器。并按如下要求配置：
 
 | Name     | ClockA | Options                                                      | Parameters                                                   |
 | :------- | :----- | :----------------------------------------------------------- | :----------------------------------------------------------- |
 | SumDiff2 | 250kHz | Out Phase ：Phase 2<br />Input 1 ：Inverting<br />Input 2 ：Non-inverting<br />Input 3 ：Non-inverting<br />Input 4 ：Inverting | Gain 1：1.5<br />Gain 2：1<br />Gain 3：16<br />Gain 4：0.333 |
 
-将乘法器的输出端连至Input 3，这里需要将加法器的输出相位（Out Phase）改成相位2（$\Phi2$），否则会因为$\Phi$的值不同而报错，同样的与加法器连接的积分器的输入信号相位也需要修改为相位2；
+将乘法器的输出端连至Input 3，这里需要将加法器的输出相位（Out Phase）改成相位2（$`\Phi2`$），否则会因为$`\Phi`$的值不同而报错，同样的与加法器连接的积分器的输入信号相位也需要修改为相位2；
 
 <img src="https://fpaa.oss-cn-shanghai.aliyuncs.com/image-20240107210036229.png" alt="image-20240107210036229"/>
 
@@ -488,6 +480,7 @@ $$
 # 案例二：Chua’s电路
 
 - 系统方程如下：
+
   $$
   \begin{cases}
   \frac{\part x}{\part t} = c\bigg[y-x+bx+\frac{1}{2}(a-b)(|x+1|-|x-1|)\bigg]\\
@@ -504,7 +497,7 @@ MATLAB仿真的向轨图和时序图如下：
 
 <img src="https://fpaa.oss-cn-shanghai.aliyuncs.com/image-20240120014727641.png" alt="image-20240120014727641" style="zoom:50%;" />
 
-观察系统公式，可以发现有一个函数 $|x+1|-|x-1|$ ，这个函数在 AD2 中没有对应的器件可以实现。因此需要用到 AD2 中的一个可以实现自定义函数的器件。
+观察系统公式，可以发现有一个函数 $`|x+1|-|x-1|`$ ，这个函数在 AD2 中没有对应的器件可以实现。因此需要用到 AD2 中的一个可以实现自定义函数的器件。
 
 # 转移函数（TransferFuntion）的使用
 
@@ -516,7 +509,7 @@ MATLAB仿真的向轨图和时序图如下：
 
 ​	实验所使用的AN231E04X芯片内部所能提供的电压值为 -3V~3V，可以把这一段视为某个函数的定义域，双击器件进入设置界面。看到右侧的Lookup Table，点击进入后可以看到将-3~3这个区间平均划分为256个区间，每个区间都对于一个输入值和一个输出值。因此，我们可以通过这个器件来实现自定义函数，俗称“打表”。
 
-## 以实现函数$|x+1|-|x-1|$为例：
+## 以实现函数$`|x+1|-|x-1|`$为例：
 
 - 在MATLAB中，输入以下代码：
 
@@ -534,7 +527,7 @@ data = [y1' x1'];
 writematrix(data, 'output.csv');\\输出一个[y1,x1]，256行的矩阵，并将其存放到名为“output”的csv文件中
 ```
 
-​	点击Lookup Table中的Load，导入生成的output.csv文件，完成函数$|x+1|-|x-1|$的定义。这里需要注意的是 TransferFuntion 只会读取文件中第一列的256个数值，所以需要检查导入的文件是否符合要求。
+​	点击Lookup Table中的Load，导入生成的output.csv文件，完成函数$`|x+1|-|x-1|`$的定义。这里需要注意的是 TransferFuntion 只会读取文件中第一列的256个数值，所以需要检查导入的文件是否符合要求。
 
 当我们完成了自定义器件 TransferFuntion 的设置，连接电路时，会遇到如下图虚线的问题：
 
@@ -547,12 +540,12 @@ writematrix(data, 'output.csv');\\输出一个[y1,x1]，256行的矩阵，并将
 
 | Name             | Clocks                            | Options                                                      | Parameters                                         |
 | ---------------- | --------------------------------- | ------------------------------------------------------------ | :------------------------------------------------- |
-| SumDiff-> $x$    | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Non-inverting<br />Input 4 ：Off | Gain 1：10<br />Gain 2：3.5<br />Gain 3：3.1<br /> |
-| SumDiff-> $y$    | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Non-inverting<br />Input 4 ：off | Gain 1：1<br />Gain 2：1<br />Gain 3：2<br />      |
+| SumDiff-> $`x`$    | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Non-inverting<br />Input 4 ：Off | Gain 1：10<br />Gain 2：3.5<br />Gain 3：3.1<br /> |
+| SumDiff-> $`y`$    | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Non-inverting<br />Input 4 ：off | Gain 1：1<br />Gain 2：1<br />Gain 3：2<br />      |
 | GainHalf         | ClockA 250kHz                     | Polarity ：Inverting<br />Input Sampling Phase ：Phase 1<br /> | Gain ：7.435                                       |
-| Integrator->$x$  | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                          |
-| Integrator->$y$  | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 1<br />Compare Control To ：No Reset | Integration Const ：0.025                          |
-| Integrator->$z$  | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                          |
+| Integrator->$`x`$  | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                          |
+| Integrator->$`y`$  | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 1<br />Compare Control To ：No Reset | Integration Const ：0.025                          |
+| Integrator->$`z`$  | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                          |
 | TransferFunction | ClockA 250kHz<br />ClockB 4000kHz | Output Hold ：Off                                            | -                                                  |
 
 仿真如下：
@@ -618,16 +611,16 @@ $$
 
 | Name               | Clocks                            | Options                                                      | Parameters                                                 |
 | ------------------ | --------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------- |
-| Multiplier（$xy$） | ClockA 250kHz<br />ClockB 4000kHz | Sample and Hold : Off                                        | Multiplication Factor : 0.333                              |
-| Multiplier（$xz$） | ClockA 250kHz<br />ClockB 4000kHz | Sample and Hold : Off                                        | Multiplication Factor : 0.333                              |
-| SumDiff->$x$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Off<br />Input 4 ：Off | Gain 1：1<br />Gain 2：1                                   |
-| SumDiff->$y$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Inverting<br />Input 4 ：Non-inverting | Gain 1：2.8<br />Gain 2：0.1<br />Gain 3：6<br />Gain 4：1 |
-| SumDiff->$z$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Off<br />Input 4 ：Off | Gain 1：1.5<br />Gain 2：0.267                             |
-| Integrator->$x$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                                  |
-| Integrator->$y$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 1<br />Compare Control To ：No Reset | Integration Const ：0.025                                  |
-| Integrator->$z$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                                  |
-| Hold ($xy$)        | ClockA 250kHz                     | Input Sampling Phase ：Phase 1                               |                                                            |
-| Hold ($xz$)        | ClockA 250kHz                     | Input Sampling Phase ：Phase 1                               |                                                            |
+| Multiplier（$`xy`$） | ClockA 250kHz<br />ClockB 4000kHz | Sample and Hold : Off                                        | Multiplication Factor : 0.333                              |
+| Multiplier（$`xz`$） | ClockA 250kHz<br />ClockB 4000kHz | Sample and Hold : Off                                        | Multiplication Factor : 0.333                              |
+| SumDiff->$`x`$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Off<br />Input 4 ：Off | Gain 1：1<br />Gain 2：1                                   |
+| SumDiff->$`y`$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Inverting<br />Input 4 ：Non-inverting | Gain 1：2.8<br />Gain 2：0.1<br />Gain 3：6<br />Gain 4：1 |
+| SumDiff->$`z`$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Inverting<br />Input 3 ：Off<br />Input 4 ：Off | Gain 1：1.5<br />Gain 2：0.267                             |
+| Integrator->$`x`$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                                  |
+| Integrator->$`y`$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 1<br />Compare Control To ：No Reset | Integration Const ：0.025                                  |
+| Integrator->$`z`$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                                  |
+| Hold ($`xy`$)        | ClockA 250kHz                     | Input Sampling Phase ：Phase 1                               |                                                            |
+| Hold ($`xz`$)        | ClockA 250kHz                     | Input Sampling Phase ：Phase 1                               |                                                            |
 
 - 仿真波形如下：
 
@@ -636,6 +629,7 @@ $$
 # 案例四：Rössler系统
 
 - 系统方程如下：
+
   $$
   \begin{cases}
   \frac{\part x}{\part t} = -(y+z)\\
@@ -661,13 +655,13 @@ $$
 
 | Name               | Clocks                            | Options                                                      | Parameters                                        |
 | ------------------ | --------------------------------- | ------------------------------------------------------------ | ------------------------------------------------- |
-| Multiplier（$xz$） | ClockA 250kHz<br />ClockB 4000kHz | Sample and Hold : Off                                        | Multiplication Factor : 0.333                     |
-| SumDiff->$x$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Inverting<br />Input 2 ：Inverting<br />Input 3 ：Off<br />Input 4 ：Off | Gain 1：1<br />Gain 2：1                          |
-| SumDiff->$y$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Non-inverting<br />Input 3 ：Off<br />Input 4 ：Off | Gain 1：1<br />Gain 2：0.2                        |
-| SumDiff->$z$       | ClockA 250kHz                     | Out Phase ：Phase 2<br />Input 1 ：Non-inverting<br />Input 2 ：Non-inverting<br />Input 3 ：Inverting<br />Input 4 ：Off | Gain 1 ：0.128<br />Gain 2 ：30<br />Gain 3 ：5.7 |
-| Integrator->$x$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                         |
-| Integrator->$y$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 1<br />Compare Control To ：No Reset | Integration Const ：0.025                         |
-| Integrator->$z$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                         |
+| Multiplier（$`xz`$） | ClockA 250kHz<br />ClockB 4000kHz | Sample and Hold : Off                                        | Multiplication Factor : 0.333                     |
+| SumDiff->$`x`$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Inverting<br />Input 2 ：Inverting<br />Input 3 ：Off<br />Input 4 ：Off | Gain 1：1<br />Gain 2：1                          |
+| SumDiff->$`y`$       | ClockA 250kHz                     | Out Phase ：Phase 1<br />Input 1 ：Non-inverting<br />Input 2 ：Non-inverting<br />Input 3 ：Off<br />Input 4 ：Off | Gain 1：1<br />Gain 2：0.2                        |
+| SumDiff->$`z`$       | ClockA 250kHz                     | Out Phase ：Phase 2<br />Input 1 ：Non-inverting<br />Input 2 ：Non-inverting<br />Input 3 ：Inverting<br />Input 4 ：Off | Gain 1 ：0.128<br />Gain 2 ：30<br />Gain 3 ：5.7 |
+| Integrator->$`x`$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                         |
+| Integrator->$`y`$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 1<br />Compare Control To ：No Reset | Integration Const ：0.025                         |
+| Integrator->$`z`$    | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br />Compare Control To ：No Reset | Integration Const ：0.025                         |
 | GainHalf           | ClockA 250kHz                     | Polarity ：Non-inverting<br />Input Sampling Phase ：Phase 2<br /> | Gain ：0.4                                        |
 | Voltage            | ClockA 250kHz                     | Polarity ：Positive（+2V）                                   |                                                   |
 
@@ -698,6 +692,7 @@ $$
 ​	混沌系统对系统的初始值十分敏感，因此通过修改系统初始值可以使系统产生不同的动力学行为。在FPAA中由于各积分器的默认初始值为0，因此对应系统初始值不为0的混沌系统需要额外配置电路给积分器充电以到达所需要的初始值，并利用FPAA可动态配置线路的特性，将相关的芯片下载到板卡以实现初始值非0的混沌系统。
 
 以混沌偏置系统（5）为例
+
 $$
 \begin{cases}
 \dot x = 1-az\\
@@ -716,7 +711,8 @@ $$
 
 ![1](https://fpaa.oss-cn-shanghai.aliyuncs.com/1.png)
 
-按照$x\rightarrow5x,y\rightarrow5y,z\rightarrow2z$调幅后，得到系统（6）
+按照$`x\rightarrow5x,y\rightarrow5y,z\rightarrow2z`$调幅后，得到系统（6）
+
 $$
 \begin{cases}
 \dot x = \frac{1}{5}-\frac{2az}{5}\\
@@ -725,7 +721,7 @@ $$
 \end{cases}
 $$
 
-缩放后的初始值为$[0.8,0,0]$
+缩放后的初始值为[0.8,0,0]
 
 其相轨图和时序图如下：
 
