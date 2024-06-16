@@ -81,7 +81,7 @@ $$
 
   [^找不到工具栏的方法]: 点击菜单栏第八个选项“View”，勾选“Toolbar”
 
-![image-20240106180930405](https://fpaa.oss-cn-shanghai.aliyuncs.com/image-20240106180930405.png)
+<img src="https://fpaa.oss-cn-shanghai.aliyuncs.com/image-20240106180930405.png"/>
 
 - 在“CAM”一栏中，找到“GainHalf”，双击选择
 
