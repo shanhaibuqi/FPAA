@@ -803,6 +803,7 @@ systemA_ic(systemA)
 # 开发版设置
 
 <img src="https://fpaa.oss-cn-shanghai.aliyuncs.com/IMG_20240404_133147(1).jpg" alt="IMG_20240404_133147(1)" style="zoom:50%;" />
+![20240404_133147(1)](https://fpaa.oss-cn-shanghai.aliyuncs.com/IMG_20240404_133147(1).jpg)
 
 如图所示为开发版上的芯片单元。两侧I1P-O3P对应芯片的左侧四个IO口，下方IO5P-IO7N对应芯片的左侧3个IO口，下方为左侧四哥就看的额外拓展接口。搭建电路时，要根据所设计的芯片外部连接方式在开发版上对应连接。同时将输出口接入一个减法电路后再连接示波器，以观察波形。
 
